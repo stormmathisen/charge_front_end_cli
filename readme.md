@@ -22,6 +22,11 @@ options:
   --calibration CALIBRATION
                         Set the calibration state of the device, 0 or 1.
   --calibration_level CALIBRATION_LEVEL
-                        Set the calibration level of the device, 0 through 255. Q_in = 2.048 * (calibration_level / 255)
+                        Set the calibration level of the device, 0 through 255. Q_in = 2.048 * (calibration_level / 255) * 2 * 31
 ```
 
+#### Example
+This will set the highest senstivitiy, with the calibration input enabled, at half the input level
+```
+chg_fe_cli --ip 192.168.114.14 --sensitivity 0 --calibration 1 --calibration_level 128
+```
