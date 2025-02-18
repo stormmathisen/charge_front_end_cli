@@ -18,7 +18,7 @@ def main():
     parser.add_argument('ip', type=str, help='IP address of the device.')
     parser.add_argument('-s', '--sensitivity', type=int, default=0, help=f'Set the sensitivity of the device, 0 through 5 from most sensitive to least sensitive.')
     parser.add_argument('-c', '--calibration', type=int, default=0, help='Set the calibration state of the device, 0 or 1.')
-    parser.add_argument('-l', '--calibration_level', type=int, default=0, help='Set the calibration level of the device, 0 through 255. Q_in = 2.048 * (calibration_level / 255)')
+    parser.add_argument('-l', '--calibration_level', type=int, default=0, help='Set the calibration level of the device, 0 through 255. Q_in [pC] = 2.048 * 66 * (calibration_level / 255)')
     parser.add_argument('-v', '--verbose',
                     action='store_true')
     args = parser.parse_args()
