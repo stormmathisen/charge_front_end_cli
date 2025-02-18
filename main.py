@@ -15,13 +15,13 @@ def main():
     # Parse arguments
     settings = Settings()
     parser = argparse.ArgumentParser(prog="chg_fe_cli", description='Command line interface for CLARA Charge Front ends')
-    parser.add_argument('--ip', type=str, required=True, help='IP address of the device.')
-    parser.add_argument('--sensitivity', type=int, default=0, help=f'Set the sensitivity of the device, 0 through 5 from most sensitive to least sensitive.')
-    parser.add_argument('--calibration', type=int, default=0, help='Set the calibration state of the device, 0 or 1.')
-    parser.add_argument('--calibration_level', type=int, default=0, help='Set the calibration level of the device, 0 through 255. Q_in = 2.048 * (calibration_level / 255)')
+    parser.add_argument('ip', type=str, help='IP address of the device.')
+    parser.add_argument('-s', '--sensitivity', type=int, default=0, help=f'Set the sensitivity of the device, 0 through 5 from most sensitive to least sensitive.')
+    parser.add_argument('-c', '--calibration', type=int, default=0, help='Set the calibration state of the device, 0 or 1.')
+    parser.add_argument('-l', '--calibration_level', type=int, default=0, help='Set the calibration level of the device, 0 through 255. Q_in = 2.048 * (calibration_level / 255)')
+    parser.add_argument('-v', '--verbose',
+                    action='store_true')
     args = parser.parse_args()
-
-    print(args.ip)
 
     settings.set_calibration_reference("REF2048mV")
 
@@ -60,10 +60,11 @@ def main():
         s.settimeout(0.5)
         s.connect((args.ip, 56000))
         s.sendall(settings.to_json().encode())
-        recv = s.recv(4096)
-        print(json.loads(recv.decode("utf-8")))
+        s.settimeout(10)
+        if args.verbose:
+            print("Settings sent")
+            print(json.dumps(settings.settings, indent=4))
         return(0)
     
 if __name__ == '__main__':
     main()
-    print("Done")
